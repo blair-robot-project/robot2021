@@ -87,7 +87,7 @@ useCameraServer: false
 ###########################################################################################
 *SUBSYSTEMS:
   - *DRIVE_SUBSYSTEM # This code should also stick year-to-year, unless y'all do swerve
-  - org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyro:
+  - org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyroShiftable:
       '@id': drive
       #Wheelbase: 2.14 TODO change if necessary. Useful to have written down.
       leftMaster:
@@ -305,12 +305,13 @@ useCameraServer: false
   *DEFAULT_COMMANDS:
     #**************************************************************************************
     # TODO edit inversions, scale, etc as necessary. Minor edits to constants, don't rewrite
+    # Also, check the tabbing, I'm not sure it copy/pasted right
     - *DRIVE_DEFAULT_COMMAND
     - subsystem:
-        org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyro:
+        org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyroShiftable:
           drive
       command:
-        org.usfirst.frc.team449.robot.drive.unidirectional.commands.UnidirectionalNavXDefaultDrive:
+        org.usfirst.frc.team449.robot.drive.unidirectional.commands.UnidirectionalNavXShiftingDefaultDrive:
           '@id': defaultDriveCommand
           kP: 0.0
           kI: 0.0
@@ -320,7 +321,7 @@ useCameraServer: false
           deadband: 2
           maxAngularVelToEnterLoop: 3
           inverted: false
-#          highGearAngularCoefficient: 3
+          highGearAngularCoefficient: 3
           rampComponent:
             org.usfirst.frc.team449.robot.generalInterfaces.doubleUnaryOperator.RampComponent:
               maxIncreasePerSecond: 3
@@ -329,7 +330,7 @@ useCameraServer: false
             '@id': driveStraightLoopEntryTimer
             bufferTimeSeconds: 0.15
           subsystem:
-            org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyro:
+            org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyroShiftable:
               drive
           oi:
             org.usfirst.frc.team449.robot.oi.unidirectional.arcade.OIArcadeWithDPad:
@@ -393,106 +394,45 @@ useCameraServer: false
                     0: 0.2
                     #1 : 0.25
                     #2: 0.25
-#          autoshiftComponent:
-#            '@id': autoshiftComponent
-#            upshiftSpeed: 3
-#            downshiftSpeed: 1
-#            upshiftDebouncer:
-#              '@id': upshiftDebouncer
-#              bufferTimeSeconds: 0.06
-#            upshiftFwdThresh: 0.4
+          autoshiftComponent:
+            '@id': autoshiftComponent
+            upshiftSpeed: 100
+            downshiftSpeed: 1
+            upshiftDebouncer:
+              '@id': upshiftDebouncer
+              bufferTimeSeconds: 0.06
+            upshiftFwdThresh: 0.4
+    # TODO add other default commands as necessary
 
-    #***********************************************************************************************************************
-    - *FEEDER_DEFAULT_COMMAND
-    - subsystem:
-        org.usfirst.frc.team449.robot._2020.multiSubsystem.IntakeSimple:
-          feeder
-      command:
-        org.usfirst.frc.team449.robot._2020.feeder.commands.DefaultFeederCommand:
-          '@id': feederIndexingCommand
-          requiredSubsystems:
-            - org.usfirst.frc.team449.robot._2020.multiSubsystem.IntakeSimple:
-                feeder
-          transitionWheelIndexingMode: IN_FAST
-          transitionWheelShootingMode: IN_FAST
-          feederIndexingMode: IN_FAST
-          feederShootingMode: OUT_FAST
-          feederCoughingMode: OUT_SLOW
-#          indexingTimeout: *feederIndexingTimeoutSecs
-          sensor:
-            org.usfirst.frc.team449.robot.jacksonWrappers.MappedDigitalInput:
-              '@id': feederSensor1
-              channel: *feederSensor1Port
-          bumper:
-            org.usfirst.frc.team449.robot._2020.multiSubsystem.IntakeSimple:
-              intakeBumper
-          transitionWheel:
-            org.usfirst.frc.team449.robot._2020.multiSubsystem.IntakeSimple:
-              intakeTransitionWheel
-          feeder:
-            org.usfirst.frc.team449.robot._2020.multiSubsystem.IntakeSimple:
-              feeder
-          shooter:
-            org.usfirst.frc.team449.robot._2020.shooter.FlywheelWithTimeout:
-              shooter
-
+  #########################################################################################
   *AUTONOMOUS_COMMANDS:
+    #**************************************************************************************
+    # TODO create autonomous code
     - *SIMPLE_ROUTINE
     - edu.wpi.first.wpilibj2.command.SequentialCommandGroup:
+        # TODO once this is fully written out, consider making a subclass of AutonomousRoutine to clean up a little
         '@id': basicRoutine
         requiredSubsystems:
-          - org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyro:
+          - org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyroShiftable:
               drive
-          - org.usfirst.frc.team449.robot._2020.shooter.FlywheelWithTimeout:
-              shooterFlywheels
         commands:
-          - edu.wpi.first.wpilibj2.command.WaitCommand:
+          - edu.wpi.first.wpilibj2.command.WaitCommand: # Just waiting. Remove if you have a full 15-sec sequence
               seconds: 5
-          - edu.wpi.first.wpilibj2.command.ParallelCommandGroup:
-              '@id': shooterInitLineShoot
-              commands:
-                - org.usfirst.frc.team449.robot._2020.shooter.commands.SpinUpFlywheel:
-                    '@id': startFlywheelAuto
-                    targetSpeed: *shooterThrottleClose
-                    flywheel:
-                      org.usfirst.frc.team449.robot._2020.shooter.FlywheelCluster:
-                        shooterFlywheels
-                - org.usfirst.frc.team449.robot._2020.multiSubsystem.commands.TurnMotorOn:
-                    '@id': startKickerAuto
-                    subsystem:
-                      org.usfirst.frc.team449.robot._2020.multiSubsystem.AnalogMotorSingleSpeed:
-                        kicker
-          - edu.wpi.first.wpilibj2.command.WaitCommand:
-              seconds: 5
-          - edu.wpi.first.wpilibj2.command.ParallelCommandGroup:
-              '@id': shooterStopAuto
-              commands:
-                - org.usfirst.frc.team449.robot._2020.shooter.commands.TurnAllOff:
-                    '@id': shooterStopAutoCommand
-                    subsystem:
-                      org.usfirst.frc.team449.robot._2020.shooter.FlywheelCluster:
-                        shooterFlywheels
-                - org.usfirst.frc.team449.robot._2020.multiSubsystem.commands.TurnMotorOff:
-                    '@id': kickerStopAutoCommand
-                    subsystem:
-                      org.usfirst.frc.team449.robot._2020.multiSubsystem.AnalogMotorSingleSpeed:
-                        kicker
-          - org.usfirst.frc.team449.robot.drive.unidirectional.commands.DriveAtSpeed:
-              '@id': drivebackauto
+          - org.usfirst.frc.team449.robot.drive.unidirectional.commands.DriveAtSpeed: # Drive at [velocity] for [seconds]
+              '@id': driveauto
               subsystem:
-                org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyro:
+                org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyroShiftable:
                   drive
-              velocity: *basicAutoDriveBackSpeed
-              seconds: *basicAutoDriveBackTimeSeconds
+              velocity: # TODO
+              seconds: # TODO
 
-########################################################################################################################
+###########################################################################################
+# TODO add anything that updates
 *UPDATER:
   org.usfirst.frc.team449.robot.other.Updater:
     '@id': updater
     updatables:
       - org.usfirst.frc.team449.robot.jacksonWrappers.PDP: PDP
-      - org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyro: drive
+      - org.usfirst.frc.team449.robot.drive.unidirectional.DriveUnidirectionalWithGyroShiftable: drive
       - org.usfirst.frc.team449.robot.oi.unidirectional.arcade.OIArcadeWithDPad: oi
       - org.usfirst.frc.team449.robot.jacksonWrappers.MappedAHRS: navX
-      - org.usfirst.frc.team449.robot.oi.throttles.ThrottleBasic: stopShooterThrottle
-      - org.usfirst.frc.team449.robot._2020.shooter.FlywheelWithTimeout: shooter
