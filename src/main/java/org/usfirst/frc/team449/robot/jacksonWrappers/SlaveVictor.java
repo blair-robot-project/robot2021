@@ -9,7 +9,7 @@ import com.fasterxml.jackson.annotation.JsonCreator;
 import com.fasterxml.jackson.annotation.JsonProperty;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.usfirst.frc.team449.robot.generalInterfaces.SlaveMotor;
+import org.usfirst.frc.team449.robot.generalInterfaces.motors.SlaveMotor;
 
 /**
  * A {@link VictorSPX} that will be slaved to another Victor or a {@link

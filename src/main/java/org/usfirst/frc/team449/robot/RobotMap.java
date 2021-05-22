@@ -10,7 +10,7 @@ import java.util.Iterator;
 import java.util.List;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.usfirst.frc.team449.robot.generalInterfaces.MotorContainer;
+import org.usfirst.frc.team449.robot.generalInterfaces.motors.smart.MotorContainer;
 import org.usfirst.frc.team449.robot.jacksonWrappers.MappedJoystick;
 import org.usfirst.frc.team449.robot.jacksonWrappers.PDP;
 

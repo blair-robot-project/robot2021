@@ -14,7 +14,7 @@ import io.github.oblarg.oblog.annotations.Log;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
 import org.usfirst.frc.team449.robot.components.RunningLinRegComponent;
-import org.usfirst.frc.team449.robot.generalInterfaces.SlaveMotor;
+import org.usfirst.frc.team449.robot.generalInterfaces.motors.SlaveMotor;
 
 /**
  * A {@link TalonSRX} that will be slaved to another TalonSRX or a {@link

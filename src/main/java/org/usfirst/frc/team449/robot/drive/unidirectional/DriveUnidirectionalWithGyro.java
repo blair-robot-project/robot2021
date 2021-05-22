@@ -17,7 +17,7 @@ import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 import org.jetbrains.annotations.NotNull;
 import org.usfirst.frc.team449.robot.generalInterfaces.AHRS.SubsystemAHRS;
-import org.usfirst.frc.team449.robot.generalInterfaces.SmartMotor;
+import org.usfirst.frc.team449.robot.generalInterfaces.motors.smart.SmartMotor;
 import org.usfirst.frc.team449.robot.jacksonWrappers.MappedAHRS;
 
 /** A drive with a cluster of any number of CANTalonSRX controlled motors on each side. */

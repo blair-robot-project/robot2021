@@ -22,7 +22,7 @@ import java.util.Map;
 import org.jetbrains.annotations.Contract;
 import org.jetbrains.annotations.NotNull;
 import org.jetbrains.annotations.Nullable;
-import org.usfirst.frc.team449.robot.generalInterfaces.SmartMotorExternalEncoder;
+import org.usfirst.frc.team449.robot.generalInterfaces.motors.smart.SmartMotorExternalEncoder;
 import org.usfirst.frc.team449.robot.generalInterfaces.shiftable.Shiftable;
 import org.usfirst.frc.team449.robot.other.Clock;
 

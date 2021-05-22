@@ -8,7 +8,7 @@ import com.revrobotics.CANSparkMaxLowLevel;
 import io.github.oblarg.oblog.Loggable;
 import io.github.oblarg.oblog.annotations.Log;
 import org.jetbrains.annotations.Nullable;
-import org.usfirst.frc.team449.robot.generalInterfaces.SlaveMotor;
+import org.usfirst.frc.team449.robot.generalInterfaces.motors.SlaveMotor;
 
 public class SlaveSparkMax implements SlaveMotor, Loggable {
 
